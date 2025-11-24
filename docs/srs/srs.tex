@@ -1,0 +1,468 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{titlesec}
+
+\titleformat{\section}{\large\bfseries}{\thesection}{0.5em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection}{0.5em}{}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+\begin{document}
+
+% -------------------------------------------------------------------
+% Cover Page
+% -------------------------------------------------------------------
+\begin{titlepage}
+    \centering
+
+    \vspace*{2cm}
+
+    {\Huge \textbf{Software Requirements Specification}}\\[0.8cm]
+    {\LARGE \textbf{SportHub}}\\[0.3cm]
+    {\Large Multi-Sport Scores \& Favorites Tracker}\\[2cm]
+
+    {\large CS3338 -- Software Engineering Tools}\\[0.2cm]
+    {\large Final Project}\\[1cm]
+
+    {\large Team 4}\\[0.4cm]
+    \begin{tabular}{l}
+        Miguel -- SDD Lead, Jira Setup \\
+        Oscar -- SRS Lead, Backend Structure \\
+        Florencio -- User Manual \& Frontend UI \\
+        Jesus -- Design Spec \& TestRail \\
+    \end{tabular}\\[1.5cm]
+
+    {\large Semester: Fall 2025}\\[0.3cm]
+    {\large Instructor: \rule{5cm}{0.4pt}}\\[2cm]
+
+    \vfill
+\end{titlepage}
+
+% -------------------------------------------------------------------
+% Table of Contents
+% -------------------------------------------------------------------
+\tableofcontents
+\newpage
+
+% -------------------------------------------------------------------
+% Version History
+% -------------------------------------------------------------------
+\section*{Version History}
+\addcontentsline{toc}{section}{Version History}
+
+\begin{longtable}{|>{\centering\arraybackslash}m{2cm}|
+                      >{\centering\arraybackslash}m{3cm}|
+                      >{\centering\arraybackslash}m{3cm}|
+                      >{\arraybackslash}m{6cm}|}
+\hline
+\textbf{Version} & \textbf{Date} & \textbf{Author} & \textbf{Description} \\
+\hline
+1.0 & 2025-11-24 & Oscar Herrera & Initial SRS for Snapshot 1 (Start) \\
+\hline
+\end{longtable}
+
+\newpage
+
+% -------------------------------------------------------------------
+% 1. Introduction
+% -------------------------------------------------------------------
+\section{Introduction}
+
+\subsection{Purpose}
+The purpose of this Software Requirements Specification (SRS) is to describe the functional and non-functional requirements for \textbf{SportHub}, a web-based sports application developed as the final project for CS3338 -- Software Engineering Tools.
+
+SportHub allows users to view upcoming and recent games across multiple sports (NBA, NFL, soccer, MLB), filter schedules, and mark teams as favorites to quickly see upcoming games for those teams. This document serves as a contract between the development team and the instructor and will guide design, implementation, testing, and documentation activities.
+
+\subsection{Scope}
+SportHub is a multi-sport scores and favorites tracker deployed as a web application. At a high level, it will provide:
+
+\begin{itemize}
+    \item Viewing of upcoming and recent games for multiple sports.
+    \item Filtering of games by sport and date.
+    \item Fan accounts with the ability to mark teams as favorites.
+    \item A ``My Favorites'' view to display upcoming games for favorite teams.
+    \item An administrative interface for managing teams and games (planned for later snapshots).
+\end{itemize}
+
+For \textbf{Snapshot 1 -- Start}, the scope is primarily:
+
+\begin{itemize}
+    \item Establishing the basic architecture (frontend, backend, database, Docker).
+    \item Implementing a basic schedule view using dummy or seed data.
+    \item Defining initial API endpoints and data models.
+    \item Producing first drafts of all project documents (SRS, SDD, User Manual, Design Spec, Snapshot Objectives).
+    \item Integrating project tooling: GitHub, Jira, TestRail scaffolding, Docker, and LaTeX.
+\end{itemize}
+
+\subsection{Definitions, Acronyms, and Abbreviations}
+\begin{description}
+    \item[API] Application Programming Interface.
+    \item[CRUD] Create, Read, Update, Delete operations.
+    \item[DB] Database.
+    \item[Frontend] The client-side portion of the application that runs in the user's browser (React).
+    \item[Backend] The server-side portion that exposes APIs and communicates with the database (Node.js/Express).
+    \item[Snapshot] One of the four major delivery checkpoints (Start, Checkpoint~1, Checkpoint~2, Final).
+    \item[Favorites] Teams selected by a user that will appear in a dedicated ``My Favorites'' view.
+    \item[UI] User Interface.
+\end{description}
+
+\subsection{References}
+\begin{itemize}
+    \item CS3338 Final Project description and snapshot requirements (course document).
+    \item Project GitHub repository: \url{https://github.com/uchiha1121/cs3338-final-sportapp}
+    \item SportHub project README in the repository (overview of goals, team roles, and snapshot breakdown).
+\end{itemize}
+
+\subsection{Overview}
+The remainder of this SRS is organized as follows:
+
+\begin{itemize}
+    \item Section~2: Overall description of the system, including product perspective, user classes, and constraints.
+    \item Section~3: External interface requirements, including user interfaces and software interfaces.
+    \item Section~4: System features (functional requirements).
+    \item Section~5: Non-functional requirements (performance, security, usability, maintainability, etc.).
+    \item Section~6: Legal and ethical considerations, data and privacy requirements, and other constraints.
+    \item Section~7: Appendices, including glossary and future work.
+\end{itemize}
+
+\newpage
+
+% -------------------------------------------------------------------
+% 2. Overall Description
+% -------------------------------------------------------------------
+\section{Overall Description}
+
+\subsection{Product Perspective}
+SportHub is a new, standalone web application. It follows a typical three-tier architecture:
+
+\begin{itemize}
+    \item \textbf{Frontend:} React-based single-page application providing the user interface.
+    \item \textbf{Backend:} Node.js/Express server exposing RESTful endpoints.
+    \item \textbf{Database:} MongoDB for storing users, teams, and game schedules.
+\end{itemize}
+
+Services are orchestrated with Docker Compose to simplify local deployment and eventual hosting. External sports data APIs may be integrated in future snapshots, but Snapshot 1 may rely on dummy or seeded data.
+
+\subsection{Product Functions}
+At a high level, SportHub will provide the following functionality:
+
+\begin{itemize}
+    \item Display upcoming and recent games for supported sports.
+    \item Filter games by sport and date.
+    \item Permit users to register, log in, and manage their account (basic scaffolding in early snapshots).
+    \item Allow users to mark teams as favorites.
+    \item Provide a ``My Favorites'' view listing upcoming games involving those teams.
+    \item Provide administrative functionality to manage teams and game records (planned for later snapshots).
+\end{itemize}
+
+\subsection{User Classes and Characteristics}
+\begin{description}
+    \item[Fans (End Users):] Users interested in viewing sports schedules and scores. They may create accounts and mark favorite teams. Technical expertise is not assumed.
+    \item[Admin Users:] Trusted users who can manage teams and games in the system. May be members of the development team or instructor.
+    \item[Developers \& Testers:] Internal users who maintain the system, write tests, configure CI/CD, and manage Jira/TestRail artifacts.
+\end{description}
+
+\subsection{Operating Environment}
+\begin{itemize}
+    \item \textbf{Client:} Modern web browser (Chrome, Firefox, Edge, Safari) with JavaScript enabled.
+    \item \textbf{Server:} Node.js runtime running in a Linux-based environment (e.g., via Docker container).
+    \item \textbf{Database:} MongoDB (containerized).
+    \item \textbf{Deployment:} Docker Compose, with potential hosting on a cloud VM (e.g., AWS EC2) or institutional server.
+    \item \textbf{Documentation tools:} LaTeX for all project documents compiled into PDF.
+\end{itemize}
+
+\subsection{Design and Implementation Constraints}
+\begin{itemize}
+    \item The project must use GitHub for version control and store all documentation in the repository.
+    \item Core documents (SRS, SDD, User Manual, Design Spec, Snapshot Objectives) must be authored in \texttt{.tex} files.
+    \item The system must be containerized using Docker and \texttt{docker-compose.yml}.
+    \item React should be used on the frontend; Node.js/Express on the backend; MongoDB for persistence.
+    \item Jira and TestRail must be incorporated into the workflow as specified by the course.
+\end{itemize}
+
+\subsection{Assumptions and Dependencies}
+\begin{itemize}
+    \item Users have a stable internet connection and an up-to-date browser.
+    \item For Snapshot 1, game and team data may be manually seeded; later snapshots may depend on third-party sports APIs.
+    \item All team members have access to GitHub, Jira, TestRail, Docker, and LaTeX tooling.
+    \item The course infrastructure and grading expectations remain consistent throughout the semester.
+\end{itemize}
+
+\newpage
+
+% -------------------------------------------------------------------
+% 3. External Interface Requirements
+% -------------------------------------------------------------------
+\section{External Interface Requirements}
+
+\subsection{User Interfaces}
+
+\subsubsection{Home Page}
+\begin{itemize}
+    \item Provides a high-level introduction to SportHub.
+    \item Displays a summary of recent or upcoming games.
+    \item Offers navigation to other pages: Teams, Games, My Favorites (when logged in), and Admin (for authorized users).
+\end{itemize}
+
+\subsubsection{Teams Page}
+\begin{itemize}
+    \item Lists teams across supported sports.
+    \item Allows users to view basic team information (name, sport, and optionally logo).
+    \item For logged-in users, offers controls to add/remove the team from their favorites.
+\end{itemize}
+
+\subsubsection{Games Page}
+\begin{itemize}
+    \item Displays a list of games with information such as sport, date/time, and participating teams.
+    \item Allows filtering by sport (NBA, NFL, soccer, MLB) and date.
+    \item May show scores for completed games or ``TBD'' for upcoming games.
+\end{itemize}
+
+\subsubsection{My Favorites Page}
+\begin{itemize}
+    \item Accessible to logged-in users.
+    \item Shows upcoming games for the user's favorite teams.
+    \item Encourages users with no favorites to add teams from the Teams page.
+\end{itemize}
+
+\subsubsection{Admin Dashboard (Future Snapshot)}
+\begin{itemize}
+    \item Restricted to admin users.
+    \item Supports adding, editing, and deleting teams and games.
+    \item Provides basic data validation feedback on input.
+\end{itemize}
+
+\subsection{Software Interfaces}
+
+\subsubsection{Backend REST API}
+Representative endpoints (names and details may evolve):
+
+\begin{itemize}
+    \item \textbf{Teams}
+    \begin{itemize}
+        \item \texttt{GET /api/teams} \\
+              Returns all teams, optionally filtered by sport.
+        \item \texttt{POST /api/teams} (admin) \\
+              Creates a new team.
+    \end{itemize}
+    \item \textbf{Games}
+    \begin{itemize}
+        \item \texttt{GET /api/games?sport=\{sport\}\&date=\{date\}} \\
+              Returns games filtered by sport and/or date.
+        \item \texttt{POST /api/games} (admin) \\
+              Creates a new game entry.
+    \end{itemize}
+    \item \textbf{Users \& Favorites}
+    \begin{itemize}
+        \item \texttt{POST /api/users/register} \\
+              Registers a new user.
+        \item \texttt{POST /api/users/login} \\
+              Authenticates a user and returns a session token or cookie.
+        \item \texttt{GET /api/users/me/favorites} \\
+              Returns the list of favorite teams for the logged-in user.
+        \item \texttt{POST /api/users/me/favorites} \\
+              Adds a team to the user's favorites.
+        \item \texttt{DELETE /api/users/me/favorites/:teamId} \\
+              Removes a team from favorites.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Database Interface}
+The backend will interact with MongoDB using Mongoose or a similar ODM. Primary collections include:
+
+\begin{itemize}
+    \item \texttt{users}: user credentials, profile data, and favorite teams.
+    \item \texttt{teams}: team name, sport, and optionally logo/metadata.
+    \item \texttt{games}: participating teams, sport, date/time, and scores.
+\end{itemize}
+
+\subsection{Communications Interfaces}
+\begin{itemize}
+    \item Client-to-server communication via HTTP/HTTPS.
+    \item Internal service communication (frontend, backend, database) via the Docker Compose network.
+    \item Future integration with external sports data APIs via HTTPS.
+\end{itemize}
+
+\newpage
+
+% -------------------------------------------------------------------
+% 4. System Features
+% -------------------------------------------------------------------
+\section{System Features}
+
+\subsection{Feature 1: View Upcoming and Recent Games}
+\subsubsection*{Description}
+Users can view lists of upcoming and recent games for supported sports.
+
+\subsubsection*{Functional Requirements}
+\begin{itemize}
+    \item F1.1 -- The system shall provide an endpoint to retrieve games (upcoming and recent).
+    \item F1.2 -- The UI shall display a list of games with sport, participating teams, and date/time.
+    \item F1.3 -- If no games are available for the selected filters, the system shall display a ``No games available'' message.
+\end{itemize}
+
+\subsection{Feature 2: Filter Games by Sport and Date}
+\subsubsection*{Description}
+Users can filter games based on sport and date.
+
+\subsubsection*{Functional Requirements}
+\begin{itemize}
+    \item F2.1 -- The UI shall provide a control for selecting a sport (NBA, NFL, soccer, MLB).
+    \item F2.2 -- The UI shall provide a date picker or equivalent control to select a date.
+    \item F2.3 -- The backend shall filter results by the selected sport and date.
+    \item F2.4 -- Invalid date parameters shall result in an error response; the frontend shall show a user-friendly error message.
+\end{itemize}
+
+\subsection{Feature 3: User Accounts and Authentication (Basic)}
+\subsubsection*{Description}
+The system will support basic user accounts for fans.
+
+\subsubsection*{Functional Requirements}
+\begin{itemize}
+    \item F3.1 -- The system shall allow a user to register with a unique identifier (e.g., email or username) and password.
+    \item F3.2 -- The system shall allow a user to log in using valid credentials.
+    \item F3.3 -- The system shall prevent access to user-specific features (e.g., My Favorites) when the user is not authenticated.
+\end{itemize}
+
+\subsection{Feature 4: Manage Favorite Teams}
+\subsubsection*{Description}
+Authenticated users can mark certain teams as favorites.
+
+\subsubsection*{Functional Requirements}
+\begin{itemize}
+    \item F4.1 -- The system shall allow an authenticated user to add a team to their favorites.
+    \item F4.2 -- The system shall allow an authenticated user to remove a team from their favorites.
+    \item F4.3 -- The system shall prevent duplicate favorites for the same team and user.
+\end{itemize}
+
+\subsection{Feature 5: My Favorites View}
+\subsubsection*{Description}
+Authenticated users can view a list of upcoming games for their favorite teams.
+
+\subsubsection*{Functional Requirements}
+\begin{itemize}
+    \item F5.1 -- The system shall allow an authenticated user to request games only for their favorite teams.
+    \item F5.2 -- The UI shall display an informative message when the user has no favorite teams.
+\end{itemize}
+
+\subsection{Feature 6: Admin Management of Teams and Games (Planned)}
+\subsubsection*{Description}
+Admin users can manage teams and games.
+
+\subsubsection*{Functional Requirements}
+\begin{itemize}
+    \item F6.1 -- The system shall restrict admin operations to users with admin privileges.
+    \item F6.2 -- The system shall allow admin users to create, update, and delete team records.
+    \item F6.3 -- The system shall allow admin users to create, update, and delete game records.
+\end{itemize}
+
+\newpage
+
+% -------------------------------------------------------------------
+% 5. Non-Functional Requirements
+% -------------------------------------------------------------------
+\section{Non-Functional Requirements}
+
+\subsection{Performance Requirements}
+\begin{itemize}
+    \item N1 -- Under typical load, API responses for basic game and team queries should complete within 500 ms on the backend.
+    \item N2 -- Pages should render in under two seconds on a modern browser and broadband connection.
+\end{itemize}
+
+\subsection{Security Requirements}
+\begin{itemize}
+    \item N3 -- Passwords shall never be stored in plain text; they must be hashed using a secure algorithm (e.g., bcrypt) in production-ready snapshots.
+    \item N4 -- Authentication tokens or cookies shall be protected against common web vulnerabilities (e.g., session hijacking).
+    \item N5 -- Admin-only features must not be accessible to non-admin users.
+\end{itemize}
+
+\subsection{Usability Requirements}
+\begin{itemize}
+    \item N6 -- Navigation shall be consistent across pages, using a common navigation bar.
+    \item N7 -- The application shall be usable on common desktop resolutions; responsive design for tablets is recommended.
+    \item N8 -- Error messages shall be clear and human-readable.
+\end{itemize}
+
+\subsection{Maintainability Requirements}
+\begin{itemize}
+    \item N9 -- Code should be modular, with separate folders for routes, controllers, and models in the backend, and for components and pages in the frontend.
+    \item N10 -- The repository shall include documentation for setup and contributions in the README and User Manual.
+    \item N11 -- Developers should follow consistent coding styles enforced with linters and formatters where possible.
+\end{itemize}
+
+\subsection{Portability Requirements}
+\begin{itemize}
+    \item N12 -- The system shall be deployable via Docker Compose on any host that supports Docker (Linux, macOS, Windows with Docker Desktop).
+    \item N13 -- Environment-specific configuration (e.g., DB URI) shall be provided via environment variables rather than hard-coded.
+\end{itemize}
+
+\subsection{Reliability and Availability}
+\begin{itemize}
+    \item N14 -- The backend shall handle transient database connection failures gracefully (e.g., retries on startup).
+    \item N15 -- Critical errors on the server shall be logged for later inspection.
+\end{itemize}
+
+\newpage
+
+% -------------------------------------------------------------------
+% 6. Legal and Ethical Considerations
+% -------------------------------------------------------------------
+\section{Legal and Ethical Considerations}
+
+\subsection{User Data and Privacy}
+\begin{itemize}
+    \item L1 -- The system shall store only the minimum user data required for functionality (e.g., login and favorites).
+    \item L2 -- User passwords and any sensitive data must be handled securely, following best practices for web security.
+    \item L3 -- Users shall be informed (e.g., in a privacy or terms section) how their data is stored and used.
+\end{itemize}
+
+\subsection{Sports Data Usage}
+\begin{itemize}
+    \item L4 -- If real sports data APIs are used, their terms of service must be followed, including any usage limits and attribution requirements.
+    \item L5 -- The project shall avoid scraping sports data from websites in violation of their terms of use.
+\end{itemize}
+
+\subsection{Ethical Considerations}
+\begin{itemize}
+    \item L6 -- The system shall not encourage abusive or harmful behavior toward teams, players, or other users.
+    \item L7 -- Any logging or analytics must respect user privacy and avoid unnecessary collection of personally identifiable information.
+\end{itemize}
+
+\newpage
+
+% -------------------------------------------------------------------
+% 7. Appendices
+% -------------------------------------------------------------------
+\section{Appendices}
+
+\subsection{Glossary}
+\begin{description}
+    \item[End User / Fan] A user who uses SportHub to view sports schedules and mark favorites.
+    \item[Admin] A privileged user who can modify teams and games.
+    \item[Snapshot] A required checkpoint deliverable for the course, including code, documents, Jira/TestRail artifacts, and reflections.
+    \item[Docker Compose] A tool for defining and running multi-container Docker applications.
+\end{description}
+
+\subsection{Future Work}
+Potential enhancements beyond Snapshot 1 include:
+
+\begin{itemize}
+    \item Integration with live sports data APIs for real-time scores and schedules.
+    \item Push notifications or email alerts for upcoming games and final scores.
+    \item More advanced filtering (by team, venue, league, or playoff status).
+    \item Mobile-friendly or native mobile app versions.
+    \item Rich statistics (player stats, standings, advanced analytics).
+\end{itemize}
+
+\end{document}

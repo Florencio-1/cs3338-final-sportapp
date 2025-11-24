@@ -1,0 +1,4 @@
+# Keep only SRS sources and exported PDF; ignore build artifacts
+docs/srs/*
+!docs/srs/*.tex
+!docs/srs/*.pdf
