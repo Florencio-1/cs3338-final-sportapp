@@ -1,0 +1,68 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+\section*{Design Specification – SportHub}
+
+\section{Overview}
+SportHub is a web application that lets users view upcoming games for
+multiple sports and keep a personal list of favorite games. This document
+describes the planned screens and main UI elements.
+
+\section{Global Layout}
+All pages share:
+\begin{itemize}
+  \item A top navigation bar with links:
+        \textbf{SportHub}, \textbf{All Games}, \textbf{My Favorites},
+        and (later) \textbf{Admin}.
+  \item A consistent color theme and typography.
+  \item A footer with basic information about the team or course.
+\end{itemize}
+
+\section{All Games Page}
+\subsection*{Purpose}
+Show all upcoming games so the user can quickly see what is happening
+across different sports.
+
+\subsection*{Main Elements}
+\begin{itemize}
+  \item \textbf{Filters area} at the top:
+        \begin{itemize}
+          \item Dropdown to select a sport (e.g., NBA, NFL, MLB).
+          \item Date picker or simple date filter (e.g., Today, This Week).
+        \end{itemize}
+  \item \textbf{Games list} in the middle of the page:
+        \begin{itemize}
+          \item Each row/card shows sport, teams, date, time, and status.
+          \item A favorite icon/button that the user can click to add or
+                remove the game from favorites.
+        \end{itemize}
+\end{itemize}
+
+\section{My Favorites Page}
+\subsection*{Purpose}
+Allow the user to focus only on games they care about most.
+
+\subsection*{Main Elements}
+\begin{itemize}
+  \item Page title: \textbf{My Favorites}.
+  \item Short description explaining that only favorited games appear here.
+  \item List of favorite games with the same layout as the All Games page.
+  \item Ability to unfavorite a game, which removes it from this list.
+\end{itemize}
+
+\section{Admin Page (Planned for Later Snapshot)}
+\subsection*{Purpose}
+Give project members a way to manage the list of games without directly
+editing the database.
+
+\subsection*{Main Elements}
+\begin{itemize}
+  \item Table showing existing games with Edit and Delete actions.
+  \item Form for adding or editing a game with fields:
+        sport, home team, away team, date, time, and optional status.
+  \item Save / Cancel buttons for the form.
+\end{itemize}
+
+\end{document}
