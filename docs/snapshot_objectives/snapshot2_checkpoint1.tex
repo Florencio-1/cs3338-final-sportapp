@@ -5,20 +5,31 @@
 
 \section*{Snapshot 2 – Checkpoint 1 Objective}
 
-For Snapshot 2, our goal is to complete the first large feature of SportHub:
-viewing games by sport and date.
+For Snapshot 2, our goal was to begin implementing the first large feature
+of SportHub: viewing games by sport and date.
 
-\subsection*{Goals}
+\subsection*{Completed Work}
+
 \begin{itemize}
-  \item Implement a basic frontend page that lists games
-        with sport, teams, date, and time.
-  \item Add simple filters for sport and date.
+  \item Implemented a basic \textbf{All Games} frontend page that lists games
+        with sport, teams, date, and time using mock data in JavaScript
+        (\texttt{frontend/index.html} and \texttt{frontend/script.js}).
+  \item Added simple filters for sport (All, NBA, NFL, MLB) so users can limit
+        the list to a single sport.
+  \item Updated the SDD, SRS, user manual, and design spec to describe the
+        current All Games feature and the overall architecture.
+\end{itemize}
+
+\subsection*{Next Steps}
+
+\begin{itemize}
   \item Create a backend endpoint (with mock data or a simple database table)
-        to return a list of games.
-  \item Update the SDD, SRS, user manual, and design spec
-        to describe the “View Games” feature.
+        to return a list of games for the All Games page.
+  \item Extend the frontend to load games from the backend API instead of
+        using only local mock data.
   \item Set up TestRail and create test cases for listing and filtering games.
-  \item Update the workflow diagram to show the flow for viewing games.
+  \item Update the workflow diagram to show the full flow for viewing games
+        (User $\rightarrow$ Frontend $\rightarrow$ Backend $\rightarrow$ Database).
 \end{itemize}
 
 \end{document}
