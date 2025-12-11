@@ -60,6 +60,8 @@ Sprint board for SportHub:
 
 https://calstatela-team4.atlassian.net/jira/software/projects/ST/boards/68?sprintStarted=true
 
+**TestRail project / runs:**  
+  <https://cs3338grooup4.testrail.io/index.php?/dashboard>
 
 ## Team 4
 
