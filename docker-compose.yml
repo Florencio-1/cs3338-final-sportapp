@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   # Database service (PostgreSQL)
   db:
@@ -35,17 +33,16 @@ services:
     ports:
       - "4000:4000"
 
-  # Frontend service (React)
+  # Frontend service (simple Node HTTP server)
   frontend:
     image: node:20
     container_name: sporthub-frontend
     working_dir: /app
     volumes:
       - ./frontend:/app
-    command: sh -c "npm install && npm start"
+    command: node index.js
     environment:
       PORT: 3000
-      REACT_APP_API_BASE_URL: http://localhost:4000
     depends_on:
       - backend
     ports:
