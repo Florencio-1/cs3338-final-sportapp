@@ -33,7 +33,20 @@ services:
     ports:
       - "4000:4000"
 
-  # Frontend service (simple Node HTTP server)
+    # Frontend service (simple Node HTTP server)
   frontend:
     image: node:20
-    cont
+    container_name: sporthub-frontend
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    command: node index.js
+    environment:
+      PORT: 3000
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
