@@ -27,6 +27,8 @@ SportHub: Multi-Sport Scores \& Favorites Tracker}
 \hline
 0.1 & 2024-11-24 & Initial draft for Snapshot 1 \\
 \hline
+0.2 & 2025-12-10 & Snapshot 3: Favorites flow design, API planning, updated UI notes \\
+\hline
 
 \end{longtable}
 \newpage
@@ -86,6 +88,10 @@ SportHub uses a common three-layer web design:
   \item \textbf{Database} – A PostgreSQL database that stores persistent data:
         users, teams, games, and which teams each fan has favorited via a
         \texttt{favorites} junction table.
+  \item \textbf{Runtime stack (current snapshot)} – Node.js 20 with Express
+        and CORS middleware for the mock API, plus nginx to serve the static
+        frontend container. Favorites persist locally until database wiring is
+        completed.
 \end{itemize}
 
 All of these parts are run as Docker containers and are managed with
@@ -120,6 +126,21 @@ A typical workflow for a fan user looks like this:
   \item The frontend shows a personalized schedule based on those favorite
         teams.
 \end{enumerate}
+
+\subsection{Snapshot 3 Implementation Notes}
+\begin{itemize}
+  \item Favorites UI added to the All Games page (star/button toggle) with a
+        basic My Favorites view that lists favorited games.
+  \item Favorites are stored on the frontend for now (in-memory or local
+        storage) while backend endpoints for persistence are designed.
+  \item Planned endpoints include \texttt{/api/favorites} for toggling and
+        \texttt{/api/favorites/games} for retrieving favorite games; both will
+        extend the existing Express service.
+  \item Frontend and backend remain containerized via \texttt{docker/Dockerfile.frontend}
+        and \texttt{docker/Dockerfile.backend}.
+  \item TestRail coverage expanded to include favorite/unfavorite and viewing
+        the favorites list; results will be tracked in the Snapshot 3 report.
+\end{itemize}
 
 \subsection{Site Breakdown}
 The main parts of the SportHub site are:

@@ -70,6 +70,8 @@
 \hline
 0.1 & 2024-11-24 & Oscar Herrera & Initial SRS for Snapshot 1 (Start) \\
 \hline
+0.2 & 2025-12-10 & Team 4 & Snapshot 3 update: Favorites prototype planned, backend/API design in progress \\
+\hline
 \end{longtable}
 
 \newpage
@@ -166,6 +168,14 @@ At a high level, SportHub will provide the following functionality:
     \item Provide administrative functionality to manage teams and game records (planned for later snapshots).
 \end{itemize}
 
+\subsection{Snapshot 3 Updates}
+\begin{itemize}
+    \item Focus on the \textbf{Favorites} flow: letting a fan mark games/teams as favorites and view them on a ``My Favorites'' page.
+    \item Maintain the All Games filters while adding UI affordances (star/button) to toggle favorites on each game card.
+    \item Begin wiring the Favorites API design (planned endpoints: \texttt{/api/favorites}, \texttt{/api/favorites/games}) and interim frontend storage while backend persistence is finalized.
+    \item Update TestRail coverage to include favorite/unfavorite and My Favorites view; results to be captured in the Snapshot 3 TestRail report.
+\end{itemize}
+
 \subsection{User Classes and Characteristics}
 \begin{description}
     \item[Fans (End Users):] Users interested in viewing sports schedules and scores. They may create accounts and mark favorite teams. Technical expertise is not assumed.
@@ -197,6 +207,7 @@ At a high level, SportHub will provide the following functionality:
     \item For Snapshot 1, game and team data may be manually seeded; later snapshots may depend on third-party sports APIs.
     \item All team members have access to GitHub, Jira, TestRail, Docker, and LaTeX tooling.
     \item The course infrastructure and grading expectations remain consistent throughout the semester.
+    \item Runtime stack for snapshots: Node.js 20 with Express and CORS middleware for the mock API; nginx container for serving the static frontend; simple client-side storage for favorites until backend persistence is ready.
 \end{itemize}
 
 \newpage
