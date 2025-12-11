@@ -12,6 +12,7 @@ CS3338 Final Project – **SportHub**, a multi-sport scores & favorites tracker.
 - Team: **Team 4**
 
  Team 4
+ 
 Miguel – SDD Lead, Jira Setup
 
 Oscar – SRS Lead, Backend Structure
