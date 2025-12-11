@@ -7,6 +7,11 @@ const PORT = 4000;
 app.use(cors());
 app.use(express.json());
 
+// Simple welcome route for the root URL
+app.get("/", (req, res) => {
+  res.send("<h1>Welcome to our SportHub sports app!</h1>");
+});
+
 // Hard-coded games for Snapshot 2
 const games = [
   {
