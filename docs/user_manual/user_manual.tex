@@ -2,137 +2,43 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 
+\title{SportHub User Manual}
+\author{Team 4}
+\date{\today}
+
 \begin{document}
 
-\section*{SportHub User Manual}
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\tableofcontents
+\newpage
 
 \section{Introduction}
 
+\subsection{What is SportHub?}
 SportHub is a web application that lets users view upcoming games for
-multiple sports and keep a personal list of favorite games. The main users
-are sports fans who want one place to quickly see games and track their
-favorites.
+multiple sports and keep a personal list of \textbf{favorite teams}.
+From those favorite teams, SportHub builds a personalized list of
+upcoming games. The main users are sports fans who want one place to
+quickly see schedules and focus on the teams they care about most.
 
-This manual explains the goals of SportHub, why the software matters, and
-how to access and use it during development.
+This manual explains:
+\begin{itemize}
+  \item The goals of SportHub and why the software matters.
+  \item How to access SportHub from GitHub / Docker.
+  \item How to navigate the main pages and use key features.
+\end{itemize}
+
+\subsection{Who is this manual for?}
+This manual is intended for:
+\begin{itemize}
+  \item Sports fans using SportHub to view games and favorite teams.
+  \item The CS3338 instructor and TAs who need to run and test the system.
+  \item Team members and future developers who want a quick guide to the UI.
+\end{itemize}
 
 \section{Objectives of SportHub}
 
-\begin{itemize}
-  \item Show a list of upcoming games for different sports (NBA, NFL, MLB, etc.).
-  \item Allow the user to filter games by sport and date.
-  \item Allow the user to mark games as favorites and view a ``My Favorites''
-        list (planned for later snapshots).
-  \item Provide a simple admin view so project members can add or edit games
-        without touching the database directly (planned for later snapshots).
-\end{itemize}
-
-\section{Why this software matters}
-
-Many sports fans jump between different apps and websites to check schedules
-for different leagues. SportHub aims to collect multiple sports into a single
-view and let users focus on the games that matter most to them through the
-favorites feature. This makes it faster and easier to keep track of favorite
-teams and important matchups.
-
-\section{Accessing SportHub}
-
-\subsection*{Requirements}
-
-\begin{itemize}
-  \item Modern web browser (Chrome, Firefox, Edge, etc.).
-  \item Local development environment with Node.js and Git (for running the
-        project on a laptop).
-\end{itemize}
-
-\subsection*{GitHub Repository}
-
-The source code and documentation are stored in the GitHub repository:
-
-\begin{itemize}
-  \item GitHub: \url{https://github.com/uchiha1121/cs3338-final-sportapp}
-\end{itemize}
-
-\subsection*{Jira Link}
-
-Project tasks and sprints will be tracked in Jira:
-
-\begin{itemize}
-  \item Jira board: \texttt{TBD -- Jira project not created yet. The link will
-        be added in a later snapshot.}
-\end{itemize}
-
-\subsection*{How to run the project (development)}
-
-During early snapshots the project is still under development, but the
-general steps to run it locally are:
-
-\begin{enumerate}
-  \item Clone the GitHub repository:
-        \begin{verbatim}
-        git clone https://github.com/uchiha1121/cs3338-final-sportapp.git
-        \end{verbatim}
-  \item Set up the backend (Node/Express) in the \texttt{backend} folder.
-  \item Set up the frontend in the \texttt{frontend} folder.
-  \item In later snapshots, start all services together using
-        \texttt{docker-compose up}.
-\end{enumerate}
-
-When fully set up, the user will open a browser and navigate to the
-frontend URL (for example \texttt{http://localhost:3000}) to use SportHub.
-
-\section{Using SportHub}
-
-\subsection*{Navigation}
-
-All pages share a top navigation bar with links:
-
-\begin{itemize}
-  \item \textbf{All Games} -- main page showing upcoming games.
-  \item \textbf{My Favorites} -- page showing only favorited games
-        (planned for later snapshots).
-  \item \textbf{Admin} -- page for managing games (planned for later snapshots).
-\end{itemize}
-
-\subsection*{All Games Page}
-
-\begin{itemize}
-  \item Shows a table or list of games with sport, home team, away team,
-        date, and time.
-  \item Contains a filter control (such as a dropdown) to limit games by sport.
-  \item In later snapshots, includes a favorite icon/button to mark a game as
-        a favorite.
-\end{itemize}
-
-\subsection*{My Favorites Page (planned)}
-
-\begin{itemize}
-  \item Shows only the games that the user has marked as favorites.
-  \item Allows the user to remove a game from favorites.
-\end{itemize}
-
-\subsection*{Admin Page (planned)}
-
-\begin{itemize}
-  \item Allows project members to create, edit, or delete games.
-  \item Includes a form with fields for sport, teams, date, and time.
-\end{itemize}
-
-\section{Current Status (Checkpoint 1)}
-
-As of Snapshot 2 (Checkpoint 1), the focus is on the
-\textbf{All Games} view. A basic page for listing games and filtering by
-sport is implemented on the frontend using sample data. Favorites and admin
-features will be added and documented in later snapshots.
-
-\subsection*{Jira Link}
-
-Project tasks and sprints are tracked in Jira:
-
-\begin{itemize}
-  \item Jira board: \url{https://calstatela-team4.atlassian.net/jira/software/projects/ST/boards/68?sprintStarted=true}
-\end{itemize}
-
-
-\end{document}
-
+The main objectives of SportHub are:
